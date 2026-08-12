@@ -1,7 +1,7 @@
-import { Practice } from './screens/practice';
+import { AppRouter } from "./routes";
 
 export default function App(): React.JSX.Element {
   return (
-    <Practice />
-  );
+    <AppRouter />
+  )
 }

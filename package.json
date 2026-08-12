@@ -26,7 +26,8 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "electron-updater": "^6.3.9",
-    "react-icons": "^5.7.0"
+    "react-icons": "^5.7.0",
+    "react-router-dom": "^7.18.2"
   },
   "devDependencies": {
     "@electron-toolkit/tsconfig": "^2.0.0",
