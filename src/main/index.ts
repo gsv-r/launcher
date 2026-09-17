@@ -2,9 +2,9 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
-import { findGamePath } from './functions/findGamePath'
-import { findModsPath } from './functions/findModsPath'
-import { findSteamPath } from './functions/findSteamPath'
+import { findGamePath } from './functions/paths/findGamePath'
+import { findModsPath } from './functions/paths/findModsPath'
+import { findSteamPath } from './functions/paths/findSteamPath'
 
 function createWindow(): void {
   // Create the browser window.
@@ -60,9 +60,6 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
-
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'));
 
   createWindow();
 

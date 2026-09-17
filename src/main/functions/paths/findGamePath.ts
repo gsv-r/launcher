@@ -1,7 +1,7 @@
 import * as path from 'path'
 import * as fs from 'fs'
 import { findSteamPath } from './findSteamPath'
-import { GAME_APP_ID } from '../constants/index'
+import { GAME_APP_ID } from '../../constants/index'
 
 function parseLibraryPaths(vdfContent: string, steamDir: string): string[] {
   const matches = vdfContent.matchAll(/"(?:path|\d+)"\s+"([^"]+)"/g)
