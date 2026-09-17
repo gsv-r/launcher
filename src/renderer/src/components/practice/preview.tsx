@@ -4,12 +4,13 @@ type PreviewCardProps = {
   src?: string
   cover?: boolean
   name?: string
+  to?: string
 }
 
-export default function Preview({ src, cover = false, name }: PreviewCardProps) {
+export default function Preview({ src, cover = false, name, to = '/' }: PreviewCardProps) {
   return (
     <div className="flex flex-col gap-2">
-      <Link to="/" className="relative shrink-0 w-[22vw] h-[25vh] bg-neutral-900 flex items-center justify-center overflow-hidden">
+      <Link to={to} className="relative shrink-0 w-[22vw] h-[25vh] bg-neutral-900 flex items-center justify-center overflow-hidden">
         {src ? (
           <img src={src} className={`w-full h-full ${cover ? 'object-cover' : 'object-contain'}`} />
         ) : (

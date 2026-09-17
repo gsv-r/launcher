@@ -59,6 +59,5 @@ export async function scanBikes(): Promise<Bike[] | false> {
     bikeIds.map((id) => loadBike(path.join(bikesPath, id)))
   )
 
-  console.log(bikes.filter((bike) => bike !== null))
   return bikes.filter((bike): bike is Bike => bike !== null)
 }
