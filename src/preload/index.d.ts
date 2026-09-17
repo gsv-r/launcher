@@ -1,4 +1,4 @@
-export {}
+export { }
 
 declare global {
   interface Window {
@@ -11,6 +11,11 @@ declare global {
     api: {
       launch: () => Promise<void>
       isRunning: () => Promise<boolean>
+      getBikes: () => Promise<Bike[]>
+    }
+    store: {
+      get: <T = unknown>(key: string) => Promise<T>
+      set: (key: string, value: unknown) => Promise<void>
     }
   }
 }

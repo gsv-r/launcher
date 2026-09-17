@@ -6,6 +6,8 @@ import { findGamePath } from './functions/paths/findGamePath'
 import { findModsPath } from './functions/paths/findModsPath'
 import { findSteamPath } from './functions/paths/findSteamPath'
 
+import { store } from './store';
+
 import { scanBikes } from './functions/scan/bikes';
 
 import { isRunning } from './functions/launch/isRunning';
@@ -54,7 +56,13 @@ function createWindow(): void {
   }
 }
 
+ipcMain.handle('store:get', (_e, key: string) => store.get(key))
+ipcMain.handle('store:set', (_e, key: string, value: unknown) => store.set(key, value))
+
+ipcMain.handle('get-bikes', () => scanBikes())
+
 ipcMain.handle('is-running', () => isRunning())
+
 ipcMain.handle('launch', async () => {
   const [steamExe, gamePath] = await Promise.all([findSteamPath(), findGamePath()])
   if (!steamExe) throw new Error('Steam not found.')
@@ -85,8 +93,6 @@ app.whenReady().then(() => {
   console.log('Steam Path:', findSteamPath())
   console.log('Game Path:', findGamePath())
   console.log('Mods Path:', findModsPath())
-
-  scanBikes()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

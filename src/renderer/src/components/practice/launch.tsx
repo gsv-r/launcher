@@ -45,18 +45,20 @@ export default function Launch({ version = '0.1.0' }: { version?: string }) {
   }
 
   return (
-    <div className="col-span-1 row-span-2 flex flex-col justify-end py-10 px-12 gap-2">
-      <button
-        onClick={launch}
-        disabled={status !== 'idle'}
-        className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-600 hover:enabled:from-blue-600 hover:enabled:to-blue-700 disabled:opacity-70 text-white text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer"
-      >
-        {status !== 'idle' && (
-          <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-        )}
-        {labelMap[status]}
-      </button>
-      <p className="text-neutral-500 text-sm">version {version}</p>
+    <div className="mt-auto">
+      <div className="col-span-1 row-span-2 flex flex-col justify-end py-10 px-12 gap-2">
+        <button
+          onClick={launch}
+          disabled={status !== 'idle'}
+          className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-600 hover:enabled:from-blue-600 hover:enabled:to-blue-700 disabled:opacity-70 text-white text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer"
+        >
+          {status !== 'idle' && (
+            <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          )}
+          {labelMap[status]}
+        </button>
+        <p className="text-neutral-500 text-sm">version {version}</p>
+      </div>
     </div>
   )
 }
