@@ -6,6 +6,8 @@ import { findGamePath } from './functions/paths/findGamePath'
 import { findModsPath } from './functions/paths/findModsPath'
 import { findSteamPath } from './functions/paths/findSteamPath'
 
+import { scanBikes } from './functions/scan/bikes';
+
 import { isRunning } from './functions/launch/isRunning';
 import { writePracticeIni } from './functions/launch/writePracticeIni';
 import { launch } from './functions/launch/launch';
@@ -83,6 +85,8 @@ app.whenReady().then(() => {
   console.log('Steam Path:', findSteamPath())
   console.log('Game Path:', findGamePath())
   console.log('Mods Path:', findModsPath())
+
+  scanBikes()
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
