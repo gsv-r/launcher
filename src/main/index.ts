@@ -2,6 +2,10 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
+import { findGamePath } from './functions/findGamePath'
+import { findModsPath } from './functions/findModsPath'
+import { findSteamPath } from './functions/findSteamPath'
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -61,6 +65,10 @@ app.whenReady().then(() => {
   ipcMain.on('ping', () => console.log('pong'));
 
   createWindow();
+
+  console.log('Steam Path:', findSteamPath())
+  console.log('Game Path:', findGamePath())
+  console.log('Mods Path:', findModsPath())
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the

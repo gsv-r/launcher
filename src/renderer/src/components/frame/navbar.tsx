@@ -18,13 +18,13 @@ export default function NavBar() {
         practice
       </Link>
       {/* <p className="no-drag text-neutral-500 cursor-pointer">my bikes</p> */}
-      <Link
+      {/* <Link
         to="/profile"
         className={`no-drag cursor-pointer ${active === 'profile' ? 'text-white' : 'text-neutral-400'}`}
         onClick={() => dispatch(setNavbarActive('profile'))}
       >
         profile
-      </Link>
+      </Link> */}
     </nav>
   )
 }
