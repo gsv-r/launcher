@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import { store } from '../../store'
 
-export async function createPracticeIni(gamePath: string) {
+export async function writePracticeIni(gamePath: string) {
   const { practice } = store.store
   const { bike, track, settings, dynamicsurface } = practice
 
