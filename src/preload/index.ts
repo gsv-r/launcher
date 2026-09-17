@@ -1,20 +1,21 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron'
+
+const electron = {
+  ipcRenderer: {
+    send: (channel: string, ...args: unknown[]) => ipcRenderer.send(channel, ...args),
+    invoke: (channel: string, ...args: unknown[]) => ipcRenderer.invoke(channel, ...args)
+  }
+}
 
 const api = {
-  ipcRenderer: {
-    send: (channel: string, ...args: unknown[]) => {
-      ipcRenderer.send(channel, ...args);
-    },
-
-    invoke: (channel: string, ...args: unknown[]) => {
-      return ipcRenderer.invoke(channel, ...args);
-    },
-  },
-};
+  launch: () => ipcRenderer.invoke('launch'),
+  isRunning: () => ipcRenderer.invoke('is-running') as Promise<boolean>,
+}
 
 if (process.contextIsolated) {
-  contextBridge.exposeInMainWorld('electron', api);
+  contextBridge.exposeInMainWorld('electron', electron)
+  contextBridge.exposeInMainWorld('api', api)
 } else {
-  // @ts-expect-error Electron API
-  window.electron = api;
+  ;(window as any).electron = electron
+  ;(window as any).api = api
 }

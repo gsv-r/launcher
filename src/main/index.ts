@@ -6,6 +6,11 @@ import { findGamePath } from './functions/paths/findGamePath'
 import { findModsPath } from './functions/paths/findModsPath'
 import { findSteamPath } from './functions/paths/findSteamPath'
 
+import { isRunning } from './functions/launch/isRunning';
+import { writePracticeIni } from './functions/launch/writePracticeIni';
+import { launch } from './functions/launch/launch';
+import { GAME_APP_ID, PRACTICE_LAUNCH_ARGS } from './constants';
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -46,6 +51,18 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 }
+
+ipcMain.handle('is-running', () => isRunning())
+ipcMain.handle('launch', async () => {
+  const [steamExe, gamePath] = await Promise.all([findSteamPath(), findGamePath()])
+  if (!steamExe) throw new Error('Steam not found.')
+  if (!gamePath) throw new Error('Game folder not found.')
+  writePracticeIni(gamePath)
+  return launch(steamExe, GAME_APP_ID, PRACTICE_LAUNCH_ARGS).catch((error) => {
+    console.error('Failed to execute:', error)
+    throw error
+  })
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

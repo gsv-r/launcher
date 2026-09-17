@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
-type LaunchStatus = 'idle' | 'launch' | 'running'
+type LaunchStatus = 'idle' | 'launch' | 'running' | 'stopping'
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 const labelMap: Record<LaunchStatus, string> = {
   idle: 'Launch',
   launch: 'Launching',
-  running: 'Running'
+  running: 'Running',
+  stopping: 'Stopping'
 }
 
 export default function Launch({ version = '0.1.0' }: { version?: string }) {
@@ -22,6 +23,8 @@ export default function Launch({ version = '0.1.0' }: { version?: string }) {
         setStatus('running')
         clearInterval(interval)
       } else if (status === 'running' && !running) {
+        setStatus('stopping')
+        await sleep(1900)
         setStatus('idle')
         clearInterval(interval)
       }
