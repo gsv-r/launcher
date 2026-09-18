@@ -17,14 +17,13 @@ export default function TitleBar() {
     <div className="flex drag-region items-center justify-between relative z-10">
       <p className="text-neutral-500 text-sm capitalize ml-4 ">launcher</p>
       <div className="flex items-center no-drag">
-        <button className="text-neutral-500 text-xs uppercase mr-10 tracking-wider cursor-pointer">discord</button>
+        <button onClick={() => window.open("https://discord.gg/p9Rn5z4Njq", "_blank")} className="text-neutral-500 text-xs uppercase mr-10 tracking-wider cursor-pointer">discord</button>
         {WINDOW_CONTROLS.map(({ action, icon, danger }) => (
           <button
             key={action}
             onClick={() => handleControlClick(action)}
-            className={`h-10 px-4 flex items-center text-white no-drag ${
-              danger ? 'hover:bg-red-600' : 'hover:bg-neutral-800'
-            }`}
+            className={`h-10 px-4 flex items-center text-white no-drag ${danger ? 'hover:bg-red-600' : 'hover:bg-neutral-800'
+              }`}
           >
             {icon}
           </button>
