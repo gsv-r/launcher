@@ -1,5 +1,6 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { app, shell, BrowserWindow, ipcMain, protocol, net } from 'electron';
 import { join } from 'path';
+import { pathToFileURL } from 'url'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
 import { findGamePath } from './functions/paths/findGamePath'
@@ -14,6 +15,10 @@ import { isRunning } from './functions/launch/isRunning';
 import { writePracticeIni } from './functions/launch/writePracticeIni';
 import { launch } from './functions/launch/launch';
 import { GAME_APP_ID, PRACTICE_LAUNCH_ARGS } from './constants';
+
+protocol.registerSchemesAsPrivileged([
+  { scheme: 'local-file', privileges: { standard: true, secure: true, supportFetchAPI: true } }
+])
 
 function createWindow(): void {
   // Create the browser window.
@@ -38,7 +43,7 @@ function createWindow(): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
   });
-  
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url);
     return { action: 'deny' };
@@ -56,23 +61,37 @@ function createWindow(): void {
   }
 }
 
-ipcMain.handle('store:get', (_e, key: string) => store.get(key))
-ipcMain.handle('store:set', (_e, key: string, value: unknown) => store.set(key, value))
-
-ipcMain.handle('get-bikes', () => scanBikes())
-
-ipcMain.handle('is-running', () => isRunning())
-
-ipcMain.handle('launch', async () => {
-  const [steamExe, gamePath] = await Promise.all([findSteamPath(), findGamePath()])
-  if (!steamExe) throw new Error('Steam not found.')
-  if (!gamePath) throw new Error('Game folder not found.')
-  writePracticeIni(gamePath)
-  return launch(steamExe, GAME_APP_ID, PRACTICE_LAUNCH_ARGS).catch((error) => {
-    console.error('Failed to execute:', error)
-    throw error
+function registerLocalFileProtocolHandler(): void {
+  protocol.handle('local-file', (request) => {
+    const requestedPath = decodeURIComponent(new URL(request.url).pathname)
+    // On Windows, the pathname keeps a leading slash before the drive letter
+    // (e.g. "/C:/Users/x"), which pathToFileURL doesn't accept — strip it.
+    const filePath = requestedPath.replace(/^\/([A-Za-z]:)/, '$1')
+    return net.fetch(pathToFileURL(filePath).toString())
   })
-})
+}
+
+function registerAppIpcHandlers(): void {
+  ipcMain.handle('store:get', (_e, key: string) => store.get(key))
+  ipcMain.handle('store:set', (_e, key: string, value: unknown) => store.set(key, value))
+
+  ipcMain.handle('get-bikes', () => scanBikes())
+
+  ipcMain.handle('is-running', () => isRunning())
+
+  ipcMain.handle('launch', async () => {
+    const [steamExe, gamePath] = await Promise.all([findSteamPath(), findGamePath()])
+    if (!steamExe) throw new Error('Steam not found.')
+    if (!gamePath) throw new Error('Game folder not found.')
+    writePracticeIni(gamePath)
+    return launch(steamExe, GAME_APP_ID, PRACTICE_LAUNCH_ARGS).catch((error) => {
+      console.error('Failed to execute:', error)
+      throw error
+    })
+  })
+}
+
+registerAppIpcHandlers()
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -87,6 +106,8 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+
+  registerLocalFileProtocolHandler()
 
   createWindow();
 
@@ -109,6 +130,3 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

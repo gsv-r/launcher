@@ -22,8 +22,9 @@ const store = {
 if (process.contextIsolated) {
   contextBridge.exposeInMainWorld('electron', electron)
   contextBridge.exposeInMainWorld('api', api)
+  contextBridge.exposeInMainWorld('store', store)
 } else {
-  ;(window as any).electron = electron
-  ;(window as any).api = api
-  ;(window as any).store = store
+  (window as any).electron = electron;
+  (window as any).api = api;
+  (window as any).store = store;
 }

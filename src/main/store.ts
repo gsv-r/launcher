@@ -26,6 +26,16 @@ export interface StoreSchema {
     dynamicsurface: {
       disable: number
     }
+  },
+  setup: {
+    bike: {
+      id: string
+      name: string
+    }
+    track: {
+      id: string
+      name: string
+    }
   }
 }
 
@@ -55,6 +65,16 @@ export const store = new Store<StoreSchema>({
       },
       dynamicsurface: {
         disable: 0
+      }
+    },
+    setup: {
+      bike: {
+        id: '',
+        name: ''
+      },
+      track: {
+        id: '',
+        name: ''
       }
     }
   }
