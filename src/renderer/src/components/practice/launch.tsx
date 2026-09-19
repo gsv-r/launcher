@@ -50,7 +50,7 @@ export default function Launch({ version = '0.1.0' }: { version?: string }) {
         <button
           onClick={launch}
           disabled={status !== 'idle'}
-          className="w-full h-16 bg-gradient-to-r from-blue-500 to-blue-600 hover:enabled:from-blue-600 hover:enabled:to-blue-700 disabled:opacity-70 text-white text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer"
+          className="w-[92%] h-16 bg-gradient-to-r from-blue-500 to-blue-600 hover:enabled:from-blue-600 hover:enabled:to-blue-700 disabled:opacity-70 text-white text-xl uppercase tracking-widest flex items-center justify-center gap-3 transition-all cursor-pointer"
         >
           {status !== 'idle' && (
             <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin" />
