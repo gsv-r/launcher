@@ -16,7 +16,7 @@ export default function Practice(): React.JSX.Element {
 
   return (
     <Layout>
-      <div className="grid grid-cols-[23vw_23vw_1fr] gap-2 h-full overflow-hidden items-start">
+      <div className="grid grid-cols-[24vw_24vw_1fr] gap-2 h-full overflow-hidden items-start">
         <Preview src={setup?.preview ?? undefined} name={setup?.name || setup?.id} to="/bikes" />
         <div>
           {/* track */}
