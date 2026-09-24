@@ -2,9 +2,9 @@
   "name": "launcher",
   "version": "1.0.0",
   "type": "module",
-  "description": "An Electron application with React and TypeScript",
+  "description": "A custom launcher for GP Bikes.",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "gsv-r",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
@@ -12,15 +12,15 @@
     "lint:fix": "eslint . --fix",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
-    "typecheck": "npm run typecheck:node && npm run typecheck:web",
+    "typecheck": "bun run typecheck:node && bun run typecheck:web",
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "npm run typecheck && electron-vite build",
+    "build": "bun run typecheck && electron-vite build",
     "postinstall": "electron-builder install-app-deps",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "electron-vite build && electron-builder --mac",
-    "build:linux": "electron-vite build && electron-builder --linux"
+    "build:unpack": "bun run build && electron-builder --dir",
+    "build:win": "bun run build && electron-builder --win",
+    "build:mac": "bun run build && electron-builder --mac",
+    "build:linux": "bun run build && electron-builder --linux"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.2",
@@ -41,7 +41,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
     "electron": "^39.2.6",
-    "electron-builder": "^26.0.12",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^5.0.0",
     "eslint": "^10.8.1",
     "eslint-plugin-react-hooks": "^7.1.1",
@@ -53,5 +53,38 @@
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.67.0",
     "vite": "^7.2.6"
+  },
+  "build": {
+    "appId": "com.gsvr.launcher",
+    "productName": "Launcher",
+    "executableName": "Launcher",
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**/*",
+      "resources/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "resources/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Launcher"
+    },
+    "artifactName": "Launcher-${version}-Setup.${ext}"
   }
 }

@@ -28,11 +28,12 @@ function createWindow(): void {
     resizable: false,
     maximizable: false,
     fullscreenable: false,
-    title: 'launcher',
+    title: 'Launcher',
     show: false,
     autoHideMenuBar: false,
     frame: false,
     roundedCorners: false,
+    icon: join(__dirname, '..', '..', 'resources', 'icon.png'),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,

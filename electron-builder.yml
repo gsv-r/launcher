@@ -1,8 +1,9 @@
-appId: com.electron.app
+appId: com.gsvr.launcher
 productName: launcher
 directories:
-  buildResources: build
+  buildResources: resources
 files:
+  - 'resources/**/*'
   - '!**/.vscode/*'
   - '!src/*'
   - '!electron.vite.config.{js,ts,mjs,cjs}'
@@ -12,7 +13,8 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: launcher
+  executableName: Launcher
+  icon: resources/icon.ico
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
