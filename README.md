@@ -1,5 +1,6 @@
+
 <div align="center">
-  <img width="138" height="138" alt="icon" src="https://github.com/user-attachments/assets/e9b8d7d8-6f0a-4b6f-8908-8b79df579500" />
+  <img width="148" height="148" alt="icon" src="https://github.com/user-attachments/assets/c0920581-def4-4c0d-9914-05811ea60d9b" />
   <h1>Launcher</h1>
   <p>A custom launcher for GP Bikes</p>
 </div>
