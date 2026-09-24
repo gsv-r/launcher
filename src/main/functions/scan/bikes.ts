@@ -3,7 +3,7 @@ import * as path from 'path'
 import { findModsPath } from '../paths/findModsPath'
 import { prepareBikes } from '../prepare/bikes'
 
-import { PREVIEW_IMAGE_FILENAMES } from '../../constants'
+import { PREVIEW_IMAGE_FILENAMES, PAINT_FILE_EXTENSION } from '../../constants'
 
 interface BikeMetadata {
   id: number;
@@ -17,6 +17,7 @@ interface BikeMetadata {
 
 interface Bike extends BikeMetadata {
   preview: string | null
+  paints: string[]
 }
 
 async function findPreview(bikeDir: string): Promise<string | null> {
@@ -32,6 +33,21 @@ async function findPreview(bikeDir: string): Promise<string | null> {
   return null
 }
 
+async function findPaints(bikeDir: string): Promise<string[]> {
+  const paintsDir = path.join(bikeDir, 'paints')
+  try {
+    const entries = await fs.readdir(paintsDir, { withFileTypes: true })
+    return entries
+      .filter(
+        (e) => e.isFile() && e.name.toLowerCase().endsWith(PAINT_FILE_EXTENSION)
+      )
+      .map((e) => path.basename(e.name, path.extname(e.name)))
+  } catch {
+    // pasta paints não existe ou não pôde ser lida
+    return []
+  }
+}
+
 async function loadBike(bikeDir: string): Promise<Bike | null> {
   let metadata: BikeMetadata
   try {
@@ -41,9 +57,12 @@ async function loadBike(bikeDir: string): Promise<Bike | null> {
     return null
   }
 
-  const preview = await findPreview(bikeDir)
+  const [preview, paints] = await Promise.all([
+    findPreview(bikeDir),
+    findPaints(bikeDir),
+  ])
 
-  return { ...metadata, preview }
+  return { ...metadata, preview, paints }
 }
 
 export async function scanBikes(): Promise<Bike[] | false> {
@@ -58,6 +77,6 @@ export async function scanBikes(): Promise<Bike[] | false> {
   const bikes = await Promise.all(
     bikeIds.map((id) => loadBike(path.join(bikesPath, id)))
   )
-
+  
   return bikes.filter((bike): bike is Bike => bike !== null)
 }

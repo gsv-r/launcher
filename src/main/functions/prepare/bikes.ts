@@ -32,6 +32,7 @@ export async function prepareBikes(): Promise<string[] | false> {
       const bikeDir = path.join(bikesPath, bike)
 
       await fs.mkdir(bikeDir, { recursive: true })
+      await fs.mkdir(path.join(bikeDir, 'paints'), { recursive: true })
 
       try {
         await fs.writeFile(

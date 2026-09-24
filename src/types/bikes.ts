@@ -10,4 +10,5 @@ export interface BikeMetadata {
 
 export interface Bike extends BikeMetadata {
   preview: string | null
+  paints: string[]
 }
