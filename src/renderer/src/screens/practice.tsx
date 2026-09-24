@@ -29,7 +29,7 @@ export default function Practice(): React.JSX.Element {
         </div>
         <div className="flex flex-col gap-2">
           <Preview src={track?.preview ?? undefined} name={track?.name || track?.id || "schwaben_m2_18"} to="/tracks" cover />
-          <Paints paints={track?.layouts.map((p) => ({ paint: p })) ?? []} />
+          <Paints paints={track?.layouts.map((l) => ({ paint: l })) ?? []} />
         </div>
         <div>
           {/* weather */}

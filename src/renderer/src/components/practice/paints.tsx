@@ -6,46 +6,48 @@ type PaintsProps = {
   paints: Paint[]
 }
 
+const BASE = '--base--'
+
 export default function Paints({ paints }: PaintsProps) {
-  const [paint, setPaint] = useState<string>(paints[0]?.paint ?? '')
+  const [paint, setPaint] = useState<string>(BASE)
+
+  const isEmpty = paints.length === 0
 
   useEffect(() => {
-    if (paints.length === 0) {
-      setPaint('')
-      return
-    }
+    if (isEmpty) return
 
     window.store.get('practice.bike.paint').then((stored) => {
-      if (stored && paints.some((p) => p.paint === stored)) {
+      if (stored === BASE || paints.some((p) => p.paint === stored)) {
         setPaint(stored as string)
       } else {
-        setPaint(paints[0].paint)
+        setPaint(BASE)
       }
     })
-  }, [paints])
+  }, [paints, isEmpty])
 
   function selectPaint(value: string) {
     setPaint(value)
     window.store.set('practice.bike.paint', value)
   }
 
-  const isEmpty = paints.length === 0
-
   return (
     <select
-      value={paint}
+      value={isEmpty ? '' : paint}
       disabled={isEmpty}
       onChange={(e) => selectPaint(e.target.value)}
       className="w-full appearance-none border-none bg-neutral-900 p-2 tracking-wide text-neutral-400 outline-none cursor-pointer uppercase disabled:cursor-not-allowed disabled:opacity-60"
     >
       {isEmpty ? (
-        <option value="">Not found</option>
+        <option value="">not found</option>
       ) : (
-        paints.map((p) => (
-          <option key={p.paint} value={p.paint}>
-            {p.paint}
-          </option>
-        ))
+        <>
+          <option value={BASE}>--base--</option>
+          {paints.map((p) => (
+            <option key={p.paint} value={p.paint}>
+              {p.paint}
+            </option>
+          ))}
+        </>
       )}
     </select>
   )
