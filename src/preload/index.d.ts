@@ -12,6 +12,7 @@ declare global {
       launch: () => Promise<void>
       isRunning: () => Promise<boolean>
       getBikes: () => Promise<Bike[]>
+      getTracks: () => Promise<Track[]>
     }
     store: {
       get: <T = unknown>(key: string) => Promise<T>

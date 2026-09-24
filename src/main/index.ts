@@ -10,11 +10,13 @@ import { findSteamPath } from './functions/paths/findSteamPath'
 import { store } from './store';
 
 import { scanBikes } from './functions/scan/bikes';
+import { scanTracks } from './functions/scan/tracks';
 
 import { isRunning } from './functions/launch/isRunning';
 import { writePracticeIni } from './functions/launch/writePracticeIni';
 import { launch } from './functions/launch/launch';
 import { GAME_APP_ID, PRACTICE_LAUNCH_ARGS } from './constants';
+
 
 protocol.registerSchemesAsPrivileged([
   { scheme: 'local-file', privileges: { standard: true, secure: true, supportFetchAPI: true } }
@@ -77,6 +79,7 @@ function registerAppIpcHandlers(): void {
   ipcMain.handle('store:set', (_e, key: string, value: unknown) => store.set(key, value))
 
   ipcMain.handle('get-bikes', () => scanBikes())
+  ipcMain.handle('get-tracks', () => scanTracks())
 
   ipcMain.handle('is-running', () => isRunning())
 

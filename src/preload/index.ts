@@ -1,5 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { Bike } from '../types/bikes'
+import { Track } from '../types/track'
 
 const electron = {
   ipcRenderer: {
@@ -11,7 +12,8 @@ const electron = {
 const api = {
   launch: () => ipcRenderer.invoke('launch'),
   isRunning: () => ipcRenderer.invoke('is-running') as Promise<boolean>,
-  getBikes: () => ipcRenderer.invoke('get-bikes') as Promise<Bike[]>
+  getBikes: () => ipcRenderer.invoke('get-bikes') as Promise<Bike[]>,
+  getTracks: () => ipcRenderer.invoke('get-tracks') as Promise<Track[]>
 }
 
 const store = {

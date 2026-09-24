@@ -20,7 +20,7 @@ export default function Preview({ src, cover = false, name, to = '/' }: PreviewP
       className="relative w-full aspect-[4/3] bg-neutral-900 flex items-center justify-center overflow-hidden"
     >
       {preview ? (
-        <img src={preview} className={`w-full h-full p-2 ${cover ? 'object-cover' : 'object-contain'}`} />
+        <img src={preview} className={`w-full h-full ${cover ? 'object-cover' : 'object-contain'}`} />
       ) : (
         <div className="w-full h-full flex items-center justify-center">
           <p className="text-neutral-500">no preview</p>
