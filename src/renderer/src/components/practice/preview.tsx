@@ -26,7 +26,7 @@ export default function Preview({ src, cover = false, name, to = '/' }: PreviewP
           <p className="text-neutral-500">no preview</p>
         </div>
       )}
-      <p className="w-full absolute bottom-0 p-2 bg-black/20 text-center text-neutral-400 tracking-wide">
+      <p className="w-full absolute bottom-0 p-2 bg-black/20 text-neutral-400 tracking-wide uppercase">
         {name}
       </p>
     </Link>
